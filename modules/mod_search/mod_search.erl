@@ -357,6 +357,18 @@ search({latest, [{cat, Cat}, {creator_id,CreatorId}]}, _OffsetLimit, _Context) -
         cats=[{"r", Cat}],
         tables=[{rsc,"r"}]
     };
+    
+
+%	TB 2012-11-11
+%   Added searching on link pivot table
+search({link, [{link, Link}]}, _OffsetLimit, _Context) ->
+    #search_sql{
+        select="r.id",
+        from="pivot_mod_ss r",
+        where="link = $1",
+        args=[Link],
+        tables=[{pivot_mod_ss,"r"}]
+    };
 
 search({upcoming, [{cat, Cat}]}, OffsetLimit, Context) ->
     search({'query', [{upcoming, true}, {cat, Cat}, {sort, 'rsc.pivot_date_start'}]}, OffsetLimit, Context);
